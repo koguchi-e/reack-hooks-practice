@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useCharCount, CharCounter } from "./hooks/useCharCount";
+import { useCharCount } from "./hooks/useCharCount";
 import { useCFPForm } from "./hooks/useCFPForm";
 import { useRequired } from "./hooks/useRequired";
 import { TextAreaField } from "./components/TextAreaField";
+import { CharCounter } from "./components/CharCounter";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
