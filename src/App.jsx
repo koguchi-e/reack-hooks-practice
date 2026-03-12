@@ -24,7 +24,7 @@ function App() {
     reset,
   } = useCFPForm();
 
-  const [cfps, setCFPs] = useState([]);
+  const [cfps, setCfps] = useState([]);
   const titleCount = useCharCount(title);
   const abstractCount = useCharCount(abstract);
   const firstNameRequired = useRequired(firstName, "姓");
@@ -32,7 +32,7 @@ function App() {
   const titleRequired = useRequired(title, "タイトル");
   const abstractRequired = useRequired(abstract, "概要");
 
-  const addCFP = () => {
+  const handleAddCfp = () => {
     const results = [
       firstNameRequired.validate(),
       lastNameRequired.validate(),
@@ -48,7 +48,7 @@ function App() {
       return;
     }
 
-    setCFPs([
+    setCfps([
       ...cfps,
       {
         id: Date.now(),
@@ -119,7 +119,7 @@ function App() {
         <button
           type="submit"
           className="add-button btn btn-primary"
-          onClick={addCFP}
+          onClick={handleAddCfp}
         >
           登録
         </button>

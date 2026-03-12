@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function useRequired(text, label) {
+export function useValidation(text, label) {
   const [error, setError] = useState("");
   const validate = () => {
     if (!text) {
