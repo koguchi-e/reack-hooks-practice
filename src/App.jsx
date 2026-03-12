@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useCharCount } from "./hooks/useCharCount";
+import { useCharCount, CharCounter } from "./hooks/useCharCount";
 import { useCFPForm } from "./hooks/useCFPForm";
 import { useRequired } from "./hooks/useRequired";
+import { TextAreaField } from "./components/TextAreaField";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -18,7 +19,7 @@ function App() {
     reset,
   } = useCFPForm();
 
-  const [prev, setCFPs] = useState([]);
+  const [cfps, setCFPs] = useState([]);
   const titleCount = useCharCount(title);
   const abstractCount = useCharCount(abstract);
   const firstNameRequired = useRequired(firstName, "姓");
@@ -38,8 +39,12 @@ function App() {
 
     if (!valid) return;
 
+    if (titleCount > 100 || abstractCount > 500) {
+      return;
+    }
+
     setCFPs([
-      ...prev,
+      ...cfps,
       {
         id: Date.now(),
         firstName: firstName,
@@ -57,83 +62,54 @@ function App() {
         <h1 className="display-1">Call For Proposals</h1>
         <div className="row">
           <div className="col">
-            <label htmlFor="name-input" className="form-label">
-              姓：
-            </label>
-            <input
-              id="firs-name-input"
-              type="text"
+            <TextAreaField
+              label="姓"
+              id="first-name-input"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="姓を入力"
-              className="name-input form-control"
-            />
-            {firstNameRequired.error && (
-              <p className="text-danger h6">{firstNameRequired.error}</p>
-            )}
+              error={firstNameRequired.error}
+              rows={1}
+            ></TextAreaField>
           </div>
 
           <div className="col">
-            <label htmlFor="name-input" className="form-label">
-              名：
-            </label>
-            <input
+            <TextAreaField
+              label="名"
               id="last-name-input"
-              type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               placeholder="名を入力"
-              className="name-input form-control"
-            />
-            {lastNameRequired.error && (
-              <p className="text-danger h6">{lastNameRequired.error}</p>
-            )}
+              error={lastNameRequired.error}
+              rows={1}
+            ></TextAreaField>
           </div>
         </div>
 
-        <label htmlFor="title-input" className="form-label">
-          タイトル：
-        </label>
-        <textarea
+        <TextAreaField
+          label="タイトル"
           id="title-input"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="タイトルを入力"
-          className="form-control"
-          rows="3"
-        ></textarea>
-        {titleRequired.error && (
-          <p className="text-danger h6">{titleRequired.error}</p>
-        )}
-        {titleCount <= 100 ? (
-          <p>{titleCount} / 100</p>
-        ) : (
-          <p>
-            <span className="text-danger">{titleCount}</span> / 100
-          </p>
-        )}
+          error={titleRequired.error}
+          rows={2}
+        ></TextAreaField>
 
-        <label htmlFor="abstract-input" className="form-label">
-          セッション説明：
-        </label>
-        <textarea
+        <CharCounter count={titleCount} max={100}></CharCounter>
+
+        <TextAreaField
+          label="セッション説明"
           id="abstract-input"
           value={abstract}
           onChange={(e) => setAbstract(e.target.value)}
           placeholder="セッション説明を入力"
           className="form-control"
-          rows="5"
-        ></textarea>
-        {abstractRequired.error && (
-          <p className="text-danger h6">{abstractRequired.error}</p>
-        )}
-        {abstractCount <= 500 ? (
-          <p>{abstractCount} / 500</p>
-        ) : (
-          <p>
-            <span className="text-danger h6">{abstractCount}</span> / 500
-          </p>
-        )}
+          error={abstractRequired.error}
+          rows={5}
+        ></TextAreaField>
+
+        <CharCounter count={abstractCount} max={500}></CharCounter>
 
         <button
           type="submit"
@@ -146,7 +122,7 @@ function App() {
 
       <hr className="border border-3"></hr>
 
-      {prev.length === 0 ? (
+      {cfps.length === 0 ? (
         <p>登録はありません。</p>
       ) : (
         <>
@@ -160,7 +136,7 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {prev.map((cfp) => (
+              {cfps.map((cfp) => (
                 <tr key={cfp.id}>
                   <td>
                     {cfp.firstName} {cfp.lastName}
