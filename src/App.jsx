@@ -2,14 +2,24 @@ import { useState } from "react";
 import { useCharCount } from "./hooks/useCharCount";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useCFPForm } from "./hooks/useCFPForm";
 
 function App() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [title, setTitle] = useState("");
-  const [abstract, setAbstract] = useState("");
+  const {
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    title,
+    setTitle,
+    abstract,
+    setAbstract,
+    reset,
+  } = useCFPForm();
+
   const [cfps, setCFPs] = useState([]);
-  const count = useCharCount(abstract);
+  const titleCount = useCharCount(title);
+  const abstractCount = useCharCount(abstract);
 
   const addCFP = () => {
     setCFPs([
@@ -22,10 +32,7 @@ function App() {
         abstract: abstract,
       },
     ]);
-    setFirstName("");
-    setLastName("");
-    setTitle("");
-    setAbstract("");
+    reset();
   };
 
   return (
@@ -63,14 +70,25 @@ function App() {
         <label htmlFor="title-input" className="form-label">
           タイトル：
         </label>
-        <input
+        <textarea
           id="title-input"
-          type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="タイトルを入力"
           className="form-control"
-        />
+          rows="3"
+        ></textarea>
+        {titleCount <= 100 ? (
+          <p>{titleCount}文字あります。</p>
+        ) : (
+          <p>
+            {titleCount}文字あります。
+            <span className="text-danger">
+              文字数オーバーです。100文字以内にしてください。
+            </span>
+          </p>
+        )}
+
         <label htmlFor="abstract-input" className="form-label">
           セッション説明：
         </label>
@@ -80,8 +98,18 @@ function App() {
           onChange={(e) => setAbstract(e.target.value)}
           placeholder="セッション説明を入力"
           className="form-control"
-          rows="3"
+          rows="5"
         ></textarea>
+        {abstractCount <= 500 ? (
+          <p>{abstractCount}文字あります。</p>
+        ) : (
+          <p>
+            {abstractCount}文字あります。
+            <span className="text-danger">
+              文字数オーバーです。500文字以内にしてください。
+            </span>
+          </p>
+        )}
 
         <button
           type="submit"
