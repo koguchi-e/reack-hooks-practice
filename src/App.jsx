@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { useCFPForm } from "./hooks/useCFPForm";
 import { useCharCount } from "./hooks/useCharCount";
-import { useRequired } from "./hooks/useRequired";
+import { useValidation } from "./hooks/useValidation";
 
 import { TextAreaField } from "./components/TextAreaField";
 import { CharCounter } from "./components/CharCounter";
@@ -27,17 +27,17 @@ function App() {
   const [cfps, setCfps] = useState([]);
   const titleCount = useCharCount(title);
   const abstractCount = useCharCount(abstract);
-  const firstNameRequired = useRequired(firstName, "姓");
-  const lastNameRequired = useRequired(lastName, "名");
-  const titleRequired = useRequired(title, "タイトル");
-  const abstractRequired = useRequired(abstract, "概要");
+  const firstNameValidation = useValidation(firstName, "姓");
+  const lastNameValidation = useValidation(lastName, "名");
+  const titleValidation = useValidation(title, "タイトル");
+  const abstractValidation = useValidation(abstract, "概要");
 
   const handleAddCfp = () => {
     const results = [
-      firstNameRequired.validate(),
-      lastNameRequired.validate(),
-      titleRequired.validate(),
-      abstractRequired.validate(),
+      firstNameValidation.validate(),
+      lastNameValidation.validate(),
+      titleValidation.validate(),
+      abstractValidation.validate(),
     ];
 
     const valid = results.every(Boolean);
@@ -73,7 +73,7 @@ function App() {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="姓を入力"
-              error={firstNameRequired.error}
+              error={firstNameValidation.error}
               rows={1}
             ></TextAreaField>
           </div>
@@ -85,7 +85,7 @@ function App() {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               placeholder="名を入力"
-              error={lastNameRequired.error}
+              error={lastNameValidation.error}
               rows={1}
             ></TextAreaField>
           </div>
@@ -97,7 +97,7 @@ function App() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="タイトルを入力"
-          error={titleRequired.error}
+          error={titleValidation.error}
           rows={2}
         ></TextAreaField>
 
@@ -110,7 +110,7 @@ function App() {
           onChange={(e) => setAbstract(e.target.value)}
           placeholder="概要を入力"
           className="form-control"
-          error={abstractRequired.error}
+          error={abstractValidation.error}
           rows={5}
         ></TextAreaField>
 

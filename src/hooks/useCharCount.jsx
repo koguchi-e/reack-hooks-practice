@@ -1,3 +1,4 @@
 export function useCharCount(text) {
-  return text.length;
+  const count = text.length;
+  return count;
 }
