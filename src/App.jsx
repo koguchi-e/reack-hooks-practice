@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { useCharCount } from "./hooks/useCharCount";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import { useCFPForm } from "./hooks/useCFPForm";
+import { useCharCount } from "./hooks/useCharCount";
 import { useRequired } from "./hooks/useRequired";
+
 import { TextAreaField } from "./components/TextAreaField";
 import { CharCounter } from "./components/CharCounter";
+
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const {
