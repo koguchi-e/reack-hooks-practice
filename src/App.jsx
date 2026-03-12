@@ -5,7 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [cfps, setCFPs] = useState("");
+  const [title, setTitle] = useState("");
+  const [abstract, setAbstract] = useState("");
+  const [cfps, setCFPs] = useState([]);
 
   const addCFP = () => {
     setCFPs([
@@ -18,7 +20,8 @@ function App() {
     ]);
     setFirstName("");
     setLastName("");
-    setCFPs("");
+    setTitle("");
+    setAbstract("");
   };
 
   return (
@@ -53,6 +56,28 @@ function App() {
             />
           </div>
         </div>
+        <label htmlFor="title-input" className="form-label">
+          タイトル：
+        </label>
+        <input
+          id="title-input"
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="タイトルを入力"
+          className="form-control"
+        />
+        <label htmlFor="abstract-input" className="form-label">
+          セッション説明：
+        </label>
+        <textarea
+          id="abstract-input"
+          value={abstract}
+          onChange={(e) => setAbstract(e.target.value)}
+          placeholder="セッション説明を入力"
+          className="form-control"
+          rows="3"
+        ></textarea>
         <button
           type="submit"
           className="add-button btn btn-primary"
@@ -60,6 +85,16 @@ function App() {
         >
           登録
         </button>
+      </div>
+      <div className="table-secondary">
+        {cfps.map((cfp) => (
+          <p key={cfp.id}>
+            {cfp.firstName}
+            {cfp.lastName}
+            {cfp.title}
+            {cfp.abstract}
+          </p>
+        ))}
       </div>
     </>
   );
