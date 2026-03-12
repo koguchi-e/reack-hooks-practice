@@ -3,6 +3,7 @@ import { useCharCount } from "./hooks/useCharCount";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useCFPForm } from "./hooks/useCFPForm";
+import { useRequired } from "./hooks/useRequired";
 
 function App() {
   const {
@@ -20,8 +21,20 @@ function App() {
   const [cfps, setCFPs] = useState([]);
   const titleCount = useCharCount(title);
   const abstractCount = useCharCount(abstract);
+  const firstNameRequired = useRequired(firstName, "姓");
+  const lastNameRequired = useRequired(lastName, "名");
+  const titleRequired = useRequired(title, "タイトル");
+  const abstractRequired = useRequired(abstract, "セッション説明");
 
   const addCFP = () => {
+    const valid =
+      firstNameRequired.validate() &
+      lastNameRequired.validate() &
+      titleRequired.validate() &
+      abstractRequired.validate();
+
+    if (!valid) return;
+
     setCFPs([
       ...cfps,
       {
@@ -52,7 +65,11 @@ function App() {
               placeholder="姓を入力"
               className="name-input form-control"
             />
+            {firstNameRequired.error && (
+              <p className="text-danger">{firstNameRequired.error}</p>
+            )}
           </div>
+
           <div className="col">
             <label htmlFor="name-input" className="form-label">
               名：
@@ -65,8 +82,12 @@ function App() {
               placeholder="名を入力"
               className="name-input form-control"
             />
+            {lastNameRequired.error && (
+              <p className="text-danger">{lastNameRequired.error}</p>
+            )}
           </div>
         </div>
+
         <label htmlFor="title-input" className="form-label">
           タイトル：
         </label>
@@ -78,6 +99,9 @@ function App() {
           className="form-control"
           rows="3"
         ></textarea>
+        {titleRequired.error && (
+          <p className="text-danger">{titleRequired.error}</p>
+        )}
         {titleCount <= 100 ? (
           <p>{titleCount}文字あります。</p>
         ) : (
@@ -100,6 +124,9 @@ function App() {
           className="form-control"
           rows="5"
         ></textarea>
+        {abstractRequired.error && (
+          <p className="text-danger">{abstractRequired.error}</p>
+        )}
         {abstractCount <= 500 ? (
           <p>{abstractCount}文字あります。</p>
         ) : (
