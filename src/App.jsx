@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useCharCount } from "./hooks/useCharCount";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -8,6 +9,7 @@ function App() {
   const [title, setTitle] = useState("");
   const [abstract, setAbstract] = useState("");
   const [cfps, setCFPs] = useState([]);
+  const count = useCharCount(abstract);
 
   const addCFP = () => {
     setCFPs([
@@ -16,6 +18,8 @@ function App() {
         id: Date.now(),
         firstName: firstName,
         lastName: lastName,
+        title: title,
+        abstract: abstract,
       },
     ]);
     setFirstName("");
@@ -78,6 +82,7 @@ function App() {
           className="form-control"
           rows="3"
         ></textarea>
+
         <button
           type="submit"
           className="add-button btn btn-primary"
@@ -86,16 +91,36 @@ function App() {
           登録
         </button>
       </div>
-      <div className="table-secondary">
-        {cfps.map((cfp) => (
-          <p key={cfp.id}>
-            {cfp.firstName}
-            {cfp.lastName}
-            {cfp.title}
-            {cfp.abstract}
-          </p>
-        ))}
-      </div>
+
+      <hr className="border border-3"></hr>
+
+      {cfps.length === 0 ? (
+        <p>登録はありません。</p>
+      ) : (
+        <>
+          <h2>登録されたCFP</h2>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">名前</th>
+                <th scope="col">タイトル</th>
+                <th scope="col">セッション説明</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cfps.map((cfp) => (
+                <tr key={cfp.id}>
+                  <td>
+                    {cfp.firstName} {cfp.lastName}
+                  </td>
+                  <td>{cfp.title}</td>
+                  <td>{cfp.abstract}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
     </>
   );
 }
