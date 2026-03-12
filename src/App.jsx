@@ -26,7 +26,7 @@ function App() {
   const firstNameRequired = useRequired(firstName, "姓");
   const lastNameRequired = useRequired(lastName, "名");
   const titleRequired = useRequired(title, "タイトル");
-  const abstractRequired = useRequired(abstract, "セッション説明");
+  const abstractRequired = useRequired(abstract, "概要");
 
   const addCFP = () => {
     const results = [
@@ -60,7 +60,7 @@ function App() {
   return (
     <>
       <div className="input-form mb-3">
-        <h1 className="display-1">Call For Proposals</h1>
+        <h1 className="display-1">演題登録</h1>
         <div className="row">
           <div className="col">
             <TextAreaField
@@ -100,11 +100,11 @@ function App() {
         <CharCounter count={titleCount} max={100}></CharCounter>
 
         <TextAreaField
-          label="セッション説明"
+          label="概要"
           id="abstract-input"
           value={abstract}
           onChange={(e) => setAbstract(e.target.value)}
-          placeholder="セッション説明を入力"
+          placeholder="概要を入力"
           className="form-control"
           error={abstractRequired.error}
           rows={5}
@@ -127,13 +127,13 @@ function App() {
         <p>登録はありません。</p>
       ) : (
         <>
-          <h2>登録されたCFP</h2>
+          <h2>登録された演題</h2>
           <table className="table table-striped">
             <thead>
               <tr>
-                <th scope="col">名前</th>
+                <th scope="col">発表者</th>
                 <th scope="col">タイトル</th>
-                <th scope="col">セッション説明</th>
+                <th scope="col">概要</th>
               </tr>
             </thead>
             <tbody>
