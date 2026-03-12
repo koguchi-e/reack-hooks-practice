@@ -5,6 +5,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [cfps, setCFPs] = useState("");
+
+  const addCFP = () => {
+    setCFPs([
+      ...cfps,
+      {
+        id: Date.now(),
+        firstName: firstName,
+        lastName: lastName,
+      },
+    ]);
+    setFirstName("");
+    setLastName("");
+    setCFPs("");
+  };
 
   return (
     <>
@@ -38,7 +53,11 @@ function App() {
             />
           </div>
         </div>
-        <button type="submit" className="add-button btn btn-primary">
+        <button
+          type="submit"
+          className="add-button btn btn-primary"
+          onClick={addCFP}
+        >
           登録
         </button>
       </div>
