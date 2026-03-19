@@ -8,7 +8,6 @@ import { useValidation } from "./hooks/useValidation";
 
 import { TextAreaField } from "./components/TextAreaField";
 import { InputField } from "./components/InputField";
-import { CharCounter } from "./components/CharCounter";
 
 import "./App.css";
 
@@ -98,9 +97,9 @@ function App() {
           placeholder="タイトルを入力"
           error={titleValidation.error}
           rows={2}
+          count={titleCount}
+          max={100}
         ></TextAreaField>
-
-        <CharCounter count={titleCount} max={100}></CharCounter>
 
         <TextAreaField
           label="概要"
@@ -111,10 +110,9 @@ function App() {
           className="form-control"
           error={abstractValidation.error}
           rows={5}
+          count={abstractCount}
+          max={500}
         ></TextAreaField>
-
-        <CharCounter count={abstractCount} max={500}></CharCounter>
-
         <button
           type="submit"
           className="add-button btn btn-primary"

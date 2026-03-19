@@ -1,3 +1,5 @@
+import { CharCounter } from "./CharCounter";
+
 export function TextAreaField({
   label,
   id,
@@ -6,6 +8,8 @@ export function TextAreaField({
   placeholder,
   error,
   rows,
+  count,
+  max,
 }) {
   return (
     <>
@@ -20,6 +24,7 @@ export function TextAreaField({
         rows={rows}
         className="form-control"
       ></textarea>
+      <CharCounter count={count} max={max}></CharCounter>
       {error && <p className="text-danger">{error}</p>}
     </>
   );
