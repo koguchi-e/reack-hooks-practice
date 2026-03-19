@@ -1,5 +1,3 @@
-import { CharCounter } from "./CharCounter";
-
 export function TextAreaField({
   label,
   id,
@@ -24,7 +22,10 @@ export function TextAreaField({
         rows={rows}
         className="form-control"
       ></textarea>
-      <CharCounter count={count} max={max}></CharCounter>
+      <p>
+        {count <= max ? count : <span className="text-danger">{count}</span>} /
+        {max}
+      </p>
       {error && <p className="text-danger">{error}</p>}
     </>
   );
