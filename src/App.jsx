@@ -3,7 +3,6 @@ import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { useCFPForm } from "./hooks/useCFPForm";
-import { useValidation } from "./hooks/useValidation";
 
 import { TextAreaField } from "./components/TextAreaField";
 import { InputField } from "./components/InputField";
@@ -23,28 +22,18 @@ function App() {
     setTitle,
     abstract,
     setAbstract,
+    errors,
+    validate,
     reset,
   } = useCFPForm();
 
   const [cfps, setCfps] = useState([]);
+
   const titleCount = title.length;
   const abstractCount = abstract.length;
-  const firstNameValidation = useValidation(firstName, "姓");
-  const lastNameValidation = useValidation(lastName, "名");
-  const titleValidation = useValidation(title, "タイトル");
-  const abstractValidation = useValidation(abstract, "概要");
 
   const handleAddCfp = () => {
-    const results = [
-      firstNameValidation.validate(),
-      lastNameValidation.validate(),
-      titleValidation.validate(),
-      abstractValidation.validate(),
-    ];
-
-    const valid = results.every(Boolean);
-
-    if (!valid) return;
+    if (!validate()) return;
 
     if (titleCount > TITLE_MAX_CHARS || abstractCount > ABSTRACT_MAX_CHARS) {
       return;
@@ -60,6 +49,7 @@ function App() {
         abstract,
       },
     ]);
+
     reset();
   };
 
@@ -67,6 +57,7 @@ function App() {
     <>
       <div className="input-form mb-3">
         <h1 className="display-1">演題登録</h1>
+
         <div className="row">
           <div className="col">
             <InputField
@@ -75,7 +66,7 @@ function App() {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="姓を入力"
-              error={firstNameValidation.error}
+              error={errors.firstName}
             />
           </div>
 
@@ -86,7 +77,7 @@ function App() {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               placeholder="名を入力"
-              error={lastNameValidation.error}
+              error={errors.lastName}
             />
           </div>
         </div>
@@ -97,11 +88,11 @@ function App() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="タイトルを入力"
-          error={titleValidation.error}
+          error={errors.title}
           rows={2}
           count={titleCount}
           max={TITLE_MAX_CHARS}
-        ></TextAreaField>
+        />
 
         <TextAreaField
           label="概要"
@@ -109,14 +100,14 @@ function App() {
           value={abstract}
           onChange={(e) => setAbstract(e.target.value)}
           placeholder="概要を入力"
-          className="form-control"
-          error={abstractValidation.error}
+          error={errors.abstract}
           rows={5}
           count={abstractCount}
           max={ABSTRACT_MAX_CHARS}
-        ></TextAreaField>
+        />
+
         <button
-          type="submit"
+          type="button"
           className="add-button btn btn-primary"
           onClick={handleAddCfp}
         >
@@ -124,7 +115,7 @@ function App() {
         </button>
       </div>
 
-      <hr className="border border-3"></hr>
+      <hr className="border border-3" />
 
       {cfps.length === 0 ? (
         <p>登録はありません。</p>
@@ -134,9 +125,9 @@ function App() {
           <table className="table table-striped">
             <thead>
               <tr>
-                <th scope="col">発表者</th>
-                <th scope="col">タイトル</th>
-                <th scope="col">概要</th>
+                <th>発表者</th>
+                <th>タイトル</th>
+                <th>概要</th>
               </tr>
             </thead>
             <tbody>
