@@ -7,6 +7,7 @@ import { useCharCount } from "./hooks/useCharCount";
 import { useValidation } from "./hooks/useValidation";
 
 import { TextAreaField } from "./components/TextAreaField";
+import { InputField } from "./components/InputField";
 import { CharCounter } from "./components/CharCounter";
 
 import "./App.css";
@@ -67,27 +68,25 @@ function App() {
         <h1 className="display-1">演題登録</h1>
         <div className="row">
           <div className="col">
-            <TextAreaField
+            <InputField
               label="姓"
               id="first-name-input"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="姓を入力"
               error={firstNameValidation.error}
-              rows={1}
-            ></TextAreaField>
+            />
           </div>
 
           <div className="col">
-            <TextAreaField
+            <InputField
               label="名"
               id="last-name-input"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               placeholder="名を入力"
               error={lastNameValidation.error}
-              rows={1}
-            ></TextAreaField>
+            />
           </div>
         </div>
 
