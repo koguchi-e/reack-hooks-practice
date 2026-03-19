@@ -11,6 +11,9 @@ import { InputField } from "./components/InputField";
 
 import "./App.css";
 
+const TITLE_MAX_CHARS = 100;
+const ABSTRACT_MAX_CHARS = 500;
+
 function App() {
   const {
     firstName,
@@ -44,7 +47,7 @@ function App() {
 
     if (!valid) return;
 
-    if (titleCount > 100 || abstractCount > 500) {
+    if (titleCount > TITLE_MAX_CHARS || abstractCount > ABSTRACT_MAX_CHARS) {
       return;
     }
 
@@ -98,7 +101,7 @@ function App() {
           error={titleValidation.error}
           rows={2}
           count={titleCount}
-          max={100}
+          max={TITLE_MAX_CHARS}
         ></TextAreaField>
 
         <TextAreaField
@@ -111,7 +114,7 @@ function App() {
           error={abstractValidation.error}
           rows={5}
           count={abstractCount}
-          max={500}
+          max={ABSTRACT_MAX_CHARS}
         ></TextAreaField>
         <button
           type="submit"
