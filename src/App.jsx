@@ -3,7 +3,6 @@ import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { useCFPForm } from "./hooks/useCFPForm";
-import { useCharCount } from "./hooks/useCharCount";
 import { useValidation } from "./hooks/useValidation";
 
 import { TextAreaField } from "./components/TextAreaField";
@@ -28,8 +27,8 @@ function App() {
   } = useCFPForm();
 
   const [cfps, setCfps] = useState([]);
-  const titleCount = useCharCount(title);
-  const abstractCount = useCharCount(abstract);
+  const titleCount = title.length;
+  const abstractCount = abstract.length;
   const firstNameValidation = useValidation(firstName, "姓");
   const lastNameValidation = useValidation(lastName, "名");
   const titleValidation = useValidation(title, "タイトル");
