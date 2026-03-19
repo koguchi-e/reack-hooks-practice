@@ -54,10 +54,10 @@ function App() {
       ...cfps,
       {
         id: Date.now(),
-        firstName: firstName,
-        lastName: lastName,
-        title: title,
-        abstract: abstract,
+        firstName,
+        lastName,
+        title,
+        abstract,
       },
     ]);
     reset();
